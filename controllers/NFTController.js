@@ -1,6 +1,7 @@
 require("dotenv").config();
 const nodeHtmlToImage = require('node-html-to-image')
 const moment = require("moment")
+const path = require('path');
 
 const apiResponse = require("../helpers/apiResponse");
 
@@ -15,8 +16,8 @@ exports.generate = [
             html: '<html><body>Hello world!</body></html>'
             })
             .then(() => console.log('The image was created successfully!'))
-
-            apiResponse.successSendImage(res, fileLocation)
+            const absolutePath = path.resolve(fileLocation);
+            apiResponse.successSendImage(res, absolutePath)
         
         // }
         // catch (err) {
