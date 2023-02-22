@@ -58,5 +58,5 @@ exports.customResponse = function (status, res, msg, data) {
 };
 
 exports.successSendImage = function (res, file) {
-	return res.status(200).sendfile(file)
+	return res.status(200).sendFile(file)
 };
