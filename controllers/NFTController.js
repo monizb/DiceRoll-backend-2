@@ -1,12 +1,11 @@
 require("dotenv").config();
-const UserModel = require("../models/UserModel");
 const { body, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 const { ethers } = require("ethers");
 
 const apiResponse = require("../helpers/apiResponse");
 
-exports.register = [
+exports.generate = [
     // Process request after validation and sanitization.
     async (req, res) => {
         try {
