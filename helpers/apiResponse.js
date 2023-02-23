@@ -56,3 +56,7 @@ exports.customResponse = function (status, res, msg, data) {
 	};
 	return res.status(status).json(resData);
 };
+
+exports.successSendImage = function (res, file) {
+	return res.status(200).sendFile(file)
+};
