@@ -8,7 +8,7 @@ exports.generate = [
         try {
             const diceResult = req.body.diceResult
             const html = nft.template({diceResult: diceResult})
-            apiResponse.successResponseWithData(res, "NFT Generated", JSON.stringify(html))
+            apiResponse.successResponseWithData(res, "NFT Generated", JSON.stringify(html).html())
         }
         catch (err) {
 			return apiResponse.ErrorResponse(res, err);
