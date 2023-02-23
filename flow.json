@@ -1,0 +1,32 @@
+{
+	"networks": {
+		"emulator": "127.0.0.1:3569",
+		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"sandboxnet": "access.sandboxnet.nodes.onflow.org:9000",
+		"testnet": "access.devnet.nodes.onflow.org:9000"
+	},
+	"contracts": {
+		"Diceroller": "./contracts/Diceroller.cdc"
+	},
+	"accounts": {
+		"emulator-account": {
+			"address": "f8d6e0586b0a20c7",
+			"key": "09f8f35b65efb70af3814d3cab94329c38ec8b475ec3b97eee261d0ab6acf992"
+		},
+		"testnet-account": {
+			"address": "0x0228cfaf738ed8f5",
+			"key": {
+				"type": "hex",
+				"index": 0,
+				"signatureAlgorithm": "ECDSA_secp256k1",
+				"hashAlgorithm": "SHA3_256",
+				"privateKey": "7528029a8e078b0d23f5f16bacca3fa4a9224a2906f331a6437e64e61595b7f5"
+			}
+		}
+	},
+	"deployments": {
+		"testnet": {
+			"testnet-account": ["Diceroller"]
+		}
+	}
+}
