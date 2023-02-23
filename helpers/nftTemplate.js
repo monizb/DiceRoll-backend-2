@@ -390,7 +390,7 @@ for (let i = 0; i < retreatCost; i++){
   document.getElementById("retreatCost").innerHTML +=  '<img src="'+ icons["star"] +'" width="10px" height="10px"/>'
 }
 
-const diceResults = ${diceResults}
+const diceResults = [${diceResults}]
 
 const arrayLength = diceResults.length;
 const squareRoot = Math.sqrt(arrayLength);
