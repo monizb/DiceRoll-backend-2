@@ -385,7 +385,7 @@ body .card .tiny-txt {
           <div class="resistance"><img class="resistanceImg" src="${resistanceSrc}" width="10px" height="10px"/><sup id="resistanceVal">${resistanceVal}</sup></div>
         </div>
         <div class="container"> 
-          <p>Retreat Cost</p>
+          <p>retreat cost</p>
           <div class="retreat" id="retreatCost">
             ${retreatCostElem} 
           </div>
