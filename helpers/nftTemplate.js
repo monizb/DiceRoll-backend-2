@@ -194,6 +194,7 @@ body {
 body .card {
   position: relative;
   width: 20%;
+  min-width: 285px;
   background: black;
   border: 0.1px solid lightgrey;
   border-radius: 15px;
