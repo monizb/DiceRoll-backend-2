@@ -14,28 +14,27 @@ fcl
 const controller = {
   rollDice: async (req, res) => {
     try {
+      //validate request
+      if (!req.body.quantity || !req.body.purpose || req.body.quantity < 1 || req.body.quantity > 100 || req.body.purpose.length > 1000 || req.body.purpose.length < 1) {
+        return apiResponse.ErrorResponse(res, "Invalid request");
+      }
+
       //generate random number between 1 and 6
       const result = await fcl.send([
         fcl.transaction`
         import Diceroller from 0x0228cfaf738ed8f5
         transaction(number: UInt256, purpose: String) {
-
           prepare(acct: AuthAccount) {
             let random = UInt256(unsafeRandom())
             let rng <- Diceroller.create(seed: random)
-            //acct.save(rng.range(1, 6), to: /storage/randomDiceer)
             log(rng.range(1, 6, quantity:number, purpose: purpose))
             destroy rng
-          }
-        
-          execute {
-            log("Saved to resource")
           }
         }
         `,
         fcl.args([
           fcl.arg(req.body.quantity, fcl.t.UInt256),
-          fcl.arg(req.body.purpose, fcl.t.String)
+          fcl.arg(req.body.purpose, fcl.t.String),
         ]),
         fcl.proposer(authorizationFunction),
         fcl.authorizations([authorizationFunction]),
@@ -43,7 +42,12 @@ const controller = {
       ]);
       console.log(result);
       const transaction = await fcl.tx(result.transactionId).onceSealed();
-      apiResponse.successResponse(res, transaction);
+      let event = transaction.events.find(x => x.type === `A.${address}.Diceroller.DiceRollSetResult`)
+      event.data.result = event.data.result.map(i=>Number(i))
+      apiResponse.successResponse(res, {
+        result: event,
+        raw: transaction,
+      });
     } catch (err) {
       console.log(err);
       return apiResponse.ErrorResponse(res, err);
