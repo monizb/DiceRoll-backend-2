@@ -53,6 +53,40 @@ const controller = {
       return apiResponse.ErrorResponse(res, err);
     }
   },
+  quickRollDice: async (req, res) => {
+    try {
+      //validate request
+      if (!req.body.quantity || !req.body.purpose || req.body.quantity < 1 || req.body.quantity > 100 || req.body.purpose.length > 1000 || req.body.purpose.length < 1) {
+        return apiResponse.ErrorResponse(res, "Invalid request");
+      }
+
+      //generate random number between 1 and 6
+      const result = await fcl.send([
+        fcl.transaction`
+        import Diceroller from 0x0228cfaf738ed8f5
+        transaction(number: UInt256, purpose: String) {
+          prepare(acct: AuthAccount) {
+            let random = UInt256(unsafeRandom())
+            let rng <- Diceroller.create(seed: random)
+            log(rng.range(1, 6, quantity:number, purpose: purpose))
+            destroy rng
+          }
+        }
+        `,
+        fcl.args([
+          fcl.arg(req.body.quantity, fcl.t.UInt256),
+          fcl.arg(req.body.purpose, fcl.t.String),
+        ]),
+        fcl.proposer(authorizationFunction),
+        fcl.authorizations([authorizationFunction]),
+        fcl.payer(authorizationFunction),
+      ]);
+      return apiResponse.successResponse(res, result);
+    } catch (err) {
+      console.log(err);
+      return apiResponse.ErrorResponse(res, err);
+    }
+  },
 };
 
 module.exports = controller;
