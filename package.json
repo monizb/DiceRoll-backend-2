@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "test": "nyc _mocha --timeout 10000 --exit --report lcovonly -- -R spec",
-    "lint": "eslint --fix --config .eslintrc.json \"**/*.js\""
+    "lint": "eslint --fix --config .eslintrc.json \"**/*.js\"",
+    "install": "npm install && node node_modules/puppeteer/install.js"
   },
   "dependencies": {
     "@onflow/fcl": "^1.3.2",
