@@ -153,6 +153,14 @@ exports.template = (opts) => {
   const hpSum = diceResults.reduce((a, b) => a + b, 0)
   const HP = `${hpSum} HP`
   const gridContainerStyle = `grid-template-columns: repeat(${columns}, 1fr); grid-template-rows: repeat(${rows}, 1fr);`
+  let rareity;
+  if(arrayLength >= 1 && arrayLength <= 6){
+    rareity = 'LEGENDARY'
+  } else if (arrayLength >= 7 && arrayLength <= 50){
+    rareity = 'RARE'
+  } else {
+    rareity = 'COMMON'
+  }
 
   let diceImg = ''
   for (let i = 0; i < rows * columns; i++) {
@@ -194,15 +202,15 @@ body {
 body .card {
   position: relative;
   width: 20%;
-  min-width: 285px;
-  background: black;
+  min-width: 330px;
+  background: ${rareity == 'LEGENDARY' ? '#FBAB7E' : rareity == 'RARE' ? '#efad00' : '#4474c8'};
+  background-color: #FBAB7E;
+background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+
   border: 0.1px solid lightgrey;
   border-radius: 15px;
   box-shadow: 1px 2px 4px 2px black;
   transition: ease all 1s;
-}
-body .card:hover {
-  transform: scale(1.2);
 }
 body .card .inner-card {
   position: relative;
@@ -264,6 +272,31 @@ body .card .inner-card .banner {
   margin-top: 0.5em;
   margin-bottom: 0.9em;
   text-align: center;
+}
+.banner-new {
+  background: ${rareity == 'LEGENDARY' ? '#000000' : rareity == 'RARE' ? '#efad00' : '#4474c8'};
+  color: white;
+  padding: 0.3em;
+  margin: 20px;
+  font-size: 0.9em;
+  margin-top: 0.3em;
+  margin-bottom: 0.9em;
+  text-align: center;
+  border-radius: 3px;
+  background-color: #FBAB7E;
+background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+
+}
+.banner-text {
+  padding: 0.3em;
+  margin: 20px;
+  font-size: 3cqw;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  text-align: center;
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 body .card .inner-card .main-text {
   font-size: 0.8em;
@@ -337,12 +370,12 @@ body .card .tiny-txt {
 
 .grid-container {
   display: grid;
-  grid-gap: 1px;
   border: none;
+  padding: 5px;
 }
 
 .grid-item {
-  padding: 10px;
+  padding: ${10/rows}px
 }
 
 .nftImg {
@@ -365,8 +398,9 @@ body .card .tiny-txt {
       <div class="grid-container" style="${gridContainerStyle}">
         ${diceImg}
       </div>
-      <div class="banner">
-        <p id="cardTitle">${cardTitle}</p>
+
+      <div class="banner-new">
+        <p id="cardTitle">${rareity}</p>
       </div>
       <hr class="second-hr"/>
       <div class="stats">
